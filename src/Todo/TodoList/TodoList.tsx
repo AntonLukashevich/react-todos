@@ -31,9 +31,9 @@ export const TodoList = () => {
           <List>
             {
               todos.slice(-5).map((todo: ITodo, index: number) =>
-                    <TodoItem todo={todo}
-                              removeTodo={removeTodo}
-                              key={todo.id}/>
+                <TodoItem todo={todo}
+                          removeTodo={removeTodo}
+                          key={todo.id}/>
               )
             }
           </List>
