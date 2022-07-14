@@ -13,22 +13,14 @@ export const useTodo = () => {
     })
   }, [])
 
-  const toggleTodo = (todoId: number) => {
-    setTodos(todos.map(todo => {
-      if (todo.id === todoId) {
-        todo.completed = !todo.completed
-      }
-      return todo
-    }))
-  }
-
   const removeTodo = (todoId: number) => {
     setTodos(todos.filter(todo => todo.id !== todoId))
   }
 
-  const addTodo = (title: string) => {
+  const addTodo = (todo: { title: string, description: string }) => {
     setTodos(todos.concat([{
-      title,
+      title: todo.title,
+      description: todo.description,
       id: Date.now(),
       completed: false
     }]))
@@ -38,8 +30,7 @@ export const useTodo = () => {
     todos,
     loadTodos,
     setTodos,
-    toggleTodo,
     removeTodo,
-    addTodo
+    addTodo,
   }
 }

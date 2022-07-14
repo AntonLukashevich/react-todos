@@ -1,13 +1,16 @@
 import React from 'react';
-import {Box, Typography} from "@mui/material";
+import {Box} from "@mui/material";
 
 import {TodoList} from "./Todo/TodoList";
+import {NavBar} from "./components/NavBar";
 
 function App() {
   return (
-    <Box sx={{textAlign: 'center', width: '80vw', margin: '0 auto'}}>
-      <Typography variant="h4">Todos</Typography>
-      <TodoList/>
+    <Box>
+      <NavBar/>
+      <Box sx={{textAlign: 'center', width: '80vw', margin: '0 auto'}}>
+        <TodoList/>
+      </Box>
     </Box>
   );
 }

@@ -5,18 +5,18 @@ export const STYLES = {
     alignItems: 'center',
     border: '2px solid lightgray',
     borderRadius: '3px',
-    marginBottom: '10px'
+    marginBottom: '10px',
+    width: '100%'
   },
   todoItemBody: {
-    width: '70%'
+    width: '80%',
+    display: 'flex',
+    flexDirection: 'column'
   },
-  todoCheck: {
-    width: '10%',
-  },
-  todoRemoveBtn: {
+  todoActionBtn: {
     width: '20%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end'
-  }
+  },
 }
