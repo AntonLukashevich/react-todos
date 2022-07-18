@@ -13,7 +13,7 @@ export const STYLES = {
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   noTodos: {
     marginTop: '25px',

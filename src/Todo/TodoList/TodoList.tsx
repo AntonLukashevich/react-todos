@@ -1,39 +1,56 @@
 import React, {useEffect, useState} from "react";
 import {Box, Button, List} from "@mui/material";
 
-import {useTodo} from "../useTodo";
+
+import {FilterTool} from "../../components/FilterTool";
+import {TodoForm} from "../TodoForm/TodoForm";
 import {ITodo} from "../../utils/interfaces";
 import {TodoItem} from "../TodoItem";
+import {useTodo} from "../useTodo";
 import {STYLES} from "./constants";
-import {TodoForm} from "../TodoForm/TodoForm";
+
 
 export const TodoList = () => {
-  const {loadTodos, todos, removeTodo, addTodo} = useTodo()
+  const {loadTodos, todos, removeTodo, addTodo, getTodo, updateTodo, setTodo, todo, updateStatus} = useTodo()
   const [modal, setModal] = useState(false)
+  const [filterTodo, setFilterTodo] = useState('')
 
   useEffect(() => {
-    loadTodos()
+    //loadTodos()
   }, [loadTodos])
 
   const openAddModal = () => {
+    setTodo(null)
+    setModal(true)
+  }
+
+  const openEditModal = () => {
     setModal(true)
   }
 
   return (
     <Box sx={STYLES.wrapper}>
       <Box sx={STYLES.container}>
+        <FilterTool setFilter={setFilterTodo}/>
         {modal &&
           <TodoForm createTodo={addTodo}
                     visible={modal}
                     setVisible={setModal}
+                    todo={todo}
+                    updateTodo={updateTodo}
           />}
         {todos.length ? (
           <List>
             {
-              todos.slice(-5).reverse().map((todo: ITodo, index: number) =>
+              todos.filter(todo => filterTodo ? (todo.status === filterTodo) : (todo))
+                .slice(-5).reverse().map((todo: ITodo, index: number) =>
                 <TodoItem todo={todo}
                           removeTodo={removeTodo}
-                          key={todo.id}/>
+                          key={todo.id}
+                          getTodo={getTodo}
+                          openEdit={openEditModal}
+                          updateStatus={updateStatus}
+                />
               )
             }
           </List>

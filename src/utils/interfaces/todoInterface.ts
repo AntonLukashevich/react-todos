@@ -1,7 +1,8 @@
 export interface ITodo {
-  userId?: number;
   id: number;
   title: string;
-  completed: boolean;
-  description?: string;
+  description: string;
+  status: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
 }

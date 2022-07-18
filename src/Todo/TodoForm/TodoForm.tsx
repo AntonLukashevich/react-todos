@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Box, Button, FormGroup, IconButton, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -6,9 +6,16 @@ import {IProps} from "./propsInterface";
 import {STYLES} from "./constants";
 import {useInput} from "../../utils/hooks";
 
-export const TodoForm = ({createTodo, visible, setVisible}: IProps) => {
+export const TodoForm = ({createTodo, visible, setVisible, todo, updateTodo}: IProps) => {
   const title = useInput('', {isEmpty: true, minLength: 4, maxLength: 60})
   const description = useInput('', {isEmpty: true, minLength: 4, maxLength: 250})
+
+  useEffect(() => {
+    if (todo?.id) {
+      title.setValue(todo?.title)
+      description.setValue(todo?.description)
+    }
+  }, [todo])
 
   let styleClasses = [STYLES.wrapper]
   if (visible) {
@@ -16,7 +23,17 @@ export const TodoForm = ({createTodo, visible, setVisible}: IProps) => {
   }
 
   const submitHandler = () => {
-    createTodo({title: title.value, description: description.value})
+    if (todo?.id) {
+      updateTodo({
+        ...todo,
+        id: todo.id,
+        title: title.value,
+        description: description.value
+      })
+    } else {
+      createTodo({title: title.value, description: description.value})
+    }
+
     title.setValue('')
     description.setValue('')
     setVisible(false)

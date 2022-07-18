@@ -1,0 +1,58 @@
+export const TODOS = [
+  {
+    id: 1,
+    title: 'Task 1',
+    status: 'in_progress',
+    description: 'Description task 1 Description task 1 Description task 1',
+    createdAt: new Date(),
+    modifiedAt: new Date(),
+  },
+  {
+    id: 2,
+    title: 'Task 2',
+    status: 'todo',
+    description: 'Description task 2 Description task 2 Description task 2',
+    createdAt: new Date(),
+    modifiedAt: new Date(),
+  },
+  {
+    id: 3,
+    title: 'Task 3',
+    status: 'done',
+    description: 'Description task 3 Description task 3 Description task 3',
+    createdAt: new Date(),
+    modifiedAt: new Date(),
+  },
+  {
+    id: 4,
+    title: 'Task 4',
+    status: 'in_progress',
+    description: 'Description task 4 Description task 43 Description task 4',
+    createdAt: new Date(),
+    modifiedAt: new Date(),
+  },
+  {
+    id: 5,
+    title: 'Task 5',
+    status: 'done',
+    description: 'Description task 5 Description task 5 Description task 5',
+    createdAt: new Date(),
+    modifiedAt: new Date(),
+  },
+  {
+    id: 6,
+    title: 'Task 6',
+    status: 'in_progress',
+    description: 'Description task 6 Description task 6 Description task6',
+    createdAt: new Date(),
+    modifiedAt: new Date(),
+  },
+  {
+    id: 7,
+    title: 'Task 7',
+    status: 'todo',
+    description: 'Description task 7 Description task 7 Description task7',
+    createdAt: new Date(),
+    modifiedAt: new Date(),
+  }
+]
