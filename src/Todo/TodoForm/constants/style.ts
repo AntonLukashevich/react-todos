@@ -18,9 +18,9 @@ export const STYLES = {
   content: {
     padding: '25px',
     background: 'white',
-    minWidth: '300px',
-    width: '50%',
-    margin: 'auto 0'
+    margin: 'auto 0',
+    width: '100%',
+    maxWidth: '600px'
   },
 
   inputTodoTitle: {

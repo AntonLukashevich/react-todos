@@ -1,13 +1,14 @@
-import React, {useState} from "react";
+import React from "react";
 import {Box, Button, FormGroup, IconButton, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import {IProps} from "./propsInterface";
 import {STYLES} from "./constants";
+import {useInput} from "../../utils/hooks";
 
 export const TodoForm = ({createTodo, visible, setVisible}: IProps) => {
-  const [inputTitle, setInputTitle] = useState('')
-  const [inputDescription, setInputDescription] = useState('')
+  const title = useInput('', {isEmpty: true, minLength: 4, maxLength: 60})
+  const description = useInput('', {isEmpty: true, minLength: 4, maxLength: 250})
 
   let styleClasses = [STYLES.wrapper]
   if (visible) {
@@ -15,9 +16,9 @@ export const TodoForm = ({createTodo, visible, setVisible}: IProps) => {
   }
 
   const submitHandler = () => {
-    createTodo({title: inputTitle, description: inputDescription})
-    setInputTitle('')
-    setInputDescription('')
+    createTodo({title: title.value, description: description.value})
+    title.setValue('')
+    description.setValue('')
     setVisible(false)
   }
 
@@ -29,22 +30,36 @@ export const TodoForm = ({createTodo, visible, setVisible}: IProps) => {
             <CloseIcon/>
           </IconButton>
         </Box>
+        {(title.isDirty && title.isEmpty) && <Box sx={{color: "red"}}>Title cannot be empty</Box>}
+        {(title.isDirty && title.minLengthError) &&
+          <Box sx={{color: "red"}}>title min length should be greater than 3</Box>}
+        {(title.isDirty && title.maxLengthError) &&
+          <Box sx={{color: "red"}}>title max length should be less than 60</Box>}
         <TextField sx={STYLES.inputTodoTitle}
                    label="Title"
-                   value={inputTitle}
-                   onChange={event => setInputTitle(event.target.value)}
+                   name="title"
+                   value={title.value}
+                   onChange={e => title.onChange(e)}
+                   onBlur={e => title.onBlur(e)}
         />
+        {(description.isDirty && description.isEmpty) && <Box sx={{color: "red"}}>Description cannot be empty</Box>}
+        {(description.isDirty && description.minLengthError) &&
+          <Box sx={{color: "red"}}>Description min length should be greater than 3</Box>}
+        {(description.isDirty && description.maxLengthError) &&
+          <Box sx={{color: "red"}}>Description max length should be less than 250</Box>}
         <TextField sx={STYLES.inputTodoTitle}
                    id="outlined-multiline-static"
                    label="Description"
+                   name="description"
                    multiline
                    rows={6}
-                   value={inputDescription}
-                   onChange={event => setInputDescription(event.target.value)}
+                   value={description.value}
+                   onChange={e => description.onChange(e)}
+                   onBlur={e => description.onBlur(e)}
         />
         <Box sx={STYLES.btnGroup}>
           <Button sx={STYLES.btn} size="medium" color="primary" variant="contained" type="button"
-                  onClick={submitHandler}>Save</Button>
+                  onClick={submitHandler} disabled={!title.inputValid || !description.inputValid}>Save</Button>
           <Button sx={STYLES.btn} variant="contained" color="error" type="button"
                   onClick={() => setVisible(false)}>Cancel</Button>
         </Box>

@@ -14,8 +14,8 @@ export const TodoItem = ({todo, removeTodo}: IProps) => {
   return (
     <ListItem sx={STYLES.todoItem}>
       <Box sx={STYLES.todoItemBody}>
-        <strong>{todo.title}</strong>
-        <small>{todo?.description}</small>
+        <Box sx={STYLES.todoTitle}>{todo.title}</Box>
+        <Box>{todo?.description}</Box>
       </Box>
       <Box sx={STYLES.todoActionBtn}>
         <IconButton color="error" onClick={remove} size="large">

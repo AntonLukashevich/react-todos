@@ -19,4 +19,11 @@ export const STYLES = {
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
+  todoTitle: {
+    fontWeight: 900,
+    paddingBottom: '10px'
+  },
+  todoDescription: {
+
+  }
 }

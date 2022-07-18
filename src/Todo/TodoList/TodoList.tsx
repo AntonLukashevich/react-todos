@@ -21,7 +21,7 @@ export const TodoList = () => {
 
   return (
     <Box sx={STYLES.wrapper}>
-      <Box sx={{width: '100%'}}>
+      <Box sx={STYLES.container}>
         {modal &&
           <TodoForm createTodo={addTodo}
                     visible={modal}
@@ -30,7 +30,7 @@ export const TodoList = () => {
         {todos.length ? (
           <List>
             {
-              todos.slice(-5).map((todo: ITodo, index: number) =>
+              todos.slice(-5).reverse().map((todo: ITodo, index: number) =>
                 <TodoItem todo={todo}
                           removeTodo={removeTodo}
                           key={todo.id}/>

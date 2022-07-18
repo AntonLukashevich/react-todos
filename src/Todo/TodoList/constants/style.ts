@@ -6,6 +6,9 @@ export const STYLES = {
     flexDirection: 'column',
     alignItems: 'center'
   },
+  container: {
+    width: '100%'
+  },
   btnGroup: {
     width: '100%',
     display: 'flex',
