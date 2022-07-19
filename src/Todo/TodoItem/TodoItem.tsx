@@ -31,7 +31,6 @@ export const TodoItem = ({todo, removeTodo, getTodo, openEdit, updateStatus}: IP
   }
 
   const changeStatus = (event: SelectChangeEvent) => {
-    console.log(event.target.value)
     updateStatus(todo.id, event.target.value)
   };
 
@@ -71,9 +70,7 @@ export const TodoItem = ({todo, removeTodo, getTodo, openEdit, updateStatus}: IP
           <Box sx={STYLES.todoDescription}>
             {todo.description}
           </Box>
-
         </Grid>
-
       </Grid>
     </ListItem>
   )

@@ -1,35 +1,41 @@
 import {useCallback, useState} from "react";
 
-import {TODOS} from "./TodoList/constants/mock-data";
 import {ITodo} from "../utils/interfaces";
-import {StatusTodo} from "../utils/enums";
 import {useApi} from "../utils/hooks";
-
+import {TODOS} from "./TodoList/constants/mock-data";
 
 export const useTodo = () => {
-  const [todos, setTodos] = useState<ITodo[]>(TODOS)
-  const {getAllTodos} = useApi()
+  const [todos, setTodos] = useState<ITodo[]>([])
+  const {getAllTodos, createTodo, deleteTodo, editTodo, errors} = useApi()
   const [todo, setTodo] = useState<ITodo | null>()
+  const [todosLoading, setTodosLoading] = useState(false)
 
   const loadTodos = useCallback((): void => {
-    getAllTodos().then((response: ITodo[]) => {
-      setTodos(response)
-    })
+    setTodosLoading(true)
+    setTimeout(() => {
+      getAllTodos().then((response: ITodo[]) => {
+        if (errors.length) {
+          console.log(errors)
+          setTodosLoading(false)
+        } else {
+          setTodos(response)
+          setTodosLoading(false)
+        }
+      })
+
+    }, 500)
   }, [])
 
   const removeTodo = (todoId: number) => {
-    setTodos(todos.filter(todo => todo.id !== todoId))
+    deleteTodo(todoId).then((response: any) => {
+      setTodos(response)
+    })
   }
 
   const addTodo = (todo: { title: string, description: string }) => {
-    setTodos(todos.concat([{
-      title: todo.title,
-      description: todo.description,
-      id: Date.now(),
-      status: StatusTodo.todo,
-      createdAt: new Date(),
-      modifiedAt: new Date(),
-    }]))
+    createTodo(todo.title, todo.description).then((response: ITodo) => {
+      setTodos(todos.concat(response))
+    })
   }
 
   const getTodo = (todo: ITodo) => {
@@ -37,21 +43,25 @@ export const useTodo = () => {
   }
 
   const updateTodo = (todo: ITodo) => {
-    setTodos(todos.map((td: ITodo) => {
-      if (td.id === todo.id) {
-        return todo;
-      }
-      return td;
-    }))
+    editTodo(todo).then((response: ITodo) => {
+      setTodos(todos.map((td: ITodo) => {
+        if (td.id === response.id) {
+          return todo;
+        }
+        return td;
+      }))
+    })
   }
 
   const updateStatus = (todoId: number, newStatus: string) => {
-    setTodos(todos.map((td: ITodo) => {
-      if (td.id === todoId) {
-        return {...td, status: newStatus};
-      }
-      return td;
-    }))
+    editTodo({id: todoId, status: newStatus}).then((response: ITodo) => {
+      setTodos(todos.map((td: ITodo) => {
+        if (td.id === response.id) {
+          return response;
+        }
+        return td;
+      }))
+    })
   }
 
   return {
@@ -64,6 +74,9 @@ export const useTodo = () => {
     getTodo,
     setTodo,
     todo,
-    updateStatus
+    updateStatus,
+    todosLoading,
+    setTodosLoading,
+    errors
   }
 }

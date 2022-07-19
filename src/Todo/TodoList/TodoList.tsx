@@ -1,22 +1,36 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, List} from "@mui/material";
-
+import {Alert, AlertTitle, Box, Button, List} from "@mui/material";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 import {FilterTool} from "../../components/FilterTool";
+import {Loader} from "../../components/Loader";
 import {TodoForm} from "../TodoForm/TodoForm";
 import {ITodo} from "../../utils/interfaces";
 import {TodoItem} from "../TodoItem";
 import {useTodo} from "../useTodo";
 import {STYLES} from "./constants";
 
-
 export const TodoList = () => {
-  const {loadTodos, todos, removeTodo, addTodo, getTodo, updateTodo, setTodo, todo, updateStatus} = useTodo()
+  const {
+    loadTodos,
+    todos,
+    removeTodo,
+    addTodo,
+    getTodo,
+    updateTodo,
+    setTodo,
+    todo,
+    updateStatus,
+    todosLoading,
+    errors
+  } = useTodo()
+
   const [modal, setModal] = useState(false)
   const [filterTodo, setFilterTodo] = useState('')
 
+
   useEffect(() => {
-    //loadTodos()
+    loadTodos()
   }, [loadTodos])
 
   const openAddModal = () => {
@@ -39,23 +53,36 @@ export const TodoList = () => {
                     todo={todo}
                     updateTodo={updateTodo}
           />}
-        {todos.length ? (
-          <List>
-            {
-              todos.filter(todo => filterTodo ? (todo.status === filterTodo) : (todo))
-                .slice(-5).reverse().map((todo: ITodo, index: number) =>
-                <TodoItem todo={todo}
-                          removeTodo={removeTodo}
-                          key={todo.id}
-                          getTodo={getTodo}
-                          openEdit={openEditModal}
-                          updateStatus={updateStatus}
-                />
-              )
-            }
-          </List>
-        ) : (<Box sx={STYLES.noTodos}> There are nothing here....<br/>
-          Please create one</Box>)}
+        {todosLoading
+          ? <Loader/>
+          : (errors.length
+            ? <Alert severity="error" onClose={() => {}}>
+              <AlertTitle>Error</AlertTitle>
+              {errors.toString()}
+            </Alert>
+            : todos.length ? (
+              <List>
+                <TransitionGroup>
+                  {
+                    todos.filter(todo => filterTodo ? (todo.status === filterTodo) : (todo))
+                      .slice(-5).reverse().map((todo: ITodo, index: number) =>
+                      <CSSTransition key={todo.id} timeout={700} classNames="item">
+                        <TodoItem todo={todo}
+                                  removeTodo={removeTodo}
+                                  key={todo.id}
+                                  getTodo={getTodo}
+                                  openEdit={openEditModal}
+                                  updateStatus={updateStatus}
+                        />
+                      </CSSTransition>
+                    )
+                  }
+                </TransitionGroup>
+              </List>
+            ) : (<Box sx={STYLES.noTodos}> There are nothing here....<br/>
+              Please create one</Box>))
+        }
+
       </Box>
       <Box sx={STYLES.btnGroup}>
         <Button variant="contained" color="success" type="button"

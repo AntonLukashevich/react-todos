@@ -31,8 +31,6 @@ export const STYLES: Record<string, any> = {
   todoDescription: {
     overflow: 'hidden',
     display: '-webkit-box',
-    "-webkit-line-clamp": 3,
-    "-webkit-box-orient": 'vertical',
     lineHeight: "1.18em",
     height: "1.8em"
   },
