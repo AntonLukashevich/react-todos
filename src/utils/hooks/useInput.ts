@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {useValidation} from "./useValidation";
 
-
 export const useInput = (initValue: string, validations: any) => {
   const [value, setValue] = useState<string>(initValue)
   const [isDirty, setIsDirty] = useState<boolean>(false)
