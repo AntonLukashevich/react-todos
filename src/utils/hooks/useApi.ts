@@ -1,39 +1,44 @@
-import axios, {AxiosError, AxiosResponse} from "axios";
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
-import {ITodo} from "../interfaces";
-import {useState} from "react";
+import { environment } from '../../enviroments/environment.pros'
+import { ITodo } from '../interfaces'
+import { useState } from 'react'
 
 export const useApi = () => {
   const [errors, setErrors] = useState<string[]>([])
 
-  const getAllTodos = (): Promise<ITodo[]> => {
-    return axios.get<ITodo[]>('http://localhost:4000/api')
+  const getAllTodos = async (): Promise<ITodo[]> => {
+    return await axios
+      .get<ITodo[]>(<string>environment.backEndUrl)
       .then((response: AxiosResponse) => response.data)
       .catch((error: AxiosError) => {
         setErrors([...errors, error.message])
       })
   }
 
-  const deleteTodo = (todoId: number): Promise<ITodo[]> => {
-    return axios.delete('http://localhost:4000/api/', {data: {id: todoId}})
+  const deleteTodo = async (todoId: number): Promise<ITodo[]> => {
+    return await axios
+      .delete(<string>environment.backEndUrl + '/', { data: { id: todoId } })
       .then((response: AxiosResponse) => response.data)
       .catch((error: AxiosError) => {
         setErrors([...errors, error.message])
       })
   }
 
-  const createTodo = (newTitle: string, newDescription: string): Promise<ITodo> => {
-    return axios.post('http://localhost:4000/api/', {title: newTitle, description: newDescription})
+  const createTodo = async (newTitle: string, newDescription: string): Promise<ITodo> => {
+    return await axios
+      .post(<string>environment.backEndUrl + '/', { title: newTitle, description: newDescription })
       .then((response: AxiosResponse) => response.data)
       .catch((error: AxiosError) => {
         setErrors([...errors, error.message])
       })
   }
 
-  const editTodo = (changes: Record<string, any>): Promise<ITodo> => {
-    return axios.patch<ITodo>('http://localhost:4000/api/', {
-      ...changes
-    })
+  const editTodo = async (changes: Record<string, any>): Promise<ITodo> => {
+    return await axios
+      .patch<ITodo>(<string>environment.backEndUrl + '/', {
+        ...changes,
+      })
       .then((response: AxiosResponse) => response.data)
       .catch((error: AxiosError) => {
         setErrors([...errors, error.message])
@@ -45,6 +50,6 @@ export const useApi = () => {
     createTodo,
     deleteTodo,
     editTodo,
-    errors
+    errors,
   }
 }

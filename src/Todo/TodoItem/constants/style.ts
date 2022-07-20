@@ -23,20 +23,18 @@ export const STYLES: Record<string, any> = {
   todoTitle: {
     fontWeight: 900,
     paddingBottom: '10px',
-    textAlign: 'center'
+    textAlign: 'left'
   },
   todoDescriptionContainer: {
     width: '80%'
   },
-  todoDescription: {
-    overflow: 'hidden',
-    display: '-webkit-box',
-    lineHeight: "1.18em",
-    height: "1.8em"
-  },
   todoStatus: {
     display: 'flex',
     justifyContent: 'flex-end'
+  },
+  moreBtn: {
+    padding: '0',
+    minWidth: '20px'
   },
   in_progress: {
     background: 'rgba(64,192,87,0.7)'

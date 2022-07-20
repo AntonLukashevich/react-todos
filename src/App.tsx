@@ -1,25 +1,24 @@
-import React from 'react';
-import {Box} from "@mui/material";
-import './App.css';
+import React from 'react'
+import { Box } from '@mui/material'
+import './App.css'
 
-import {TodoList} from "./Todo/TodoList";
-import {NavBar} from "./components/NavBar";
+import { TodoList } from './Todo/TodoList'
+import { NavBar } from './components/NavBar'
 
 function App() {
   const styles = {
-    //textAlign: 'center',
     width: '100%',
     maxWidth: '700px',
-    margin: '0 auto'
+    margin: '0 auto',
   }
   return (
     <Box>
-      <NavBar/>
+      <NavBar />
       <Box sx={styles}>
-        <TodoList/>
+        <TodoList />
       </Box>
     </Box>
-  );
+  )
 }
 
-export default App;
+export default App

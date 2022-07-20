@@ -1,15 +1,18 @@
-import {useState} from "react";
-import {useValidation} from "./useValidation";
+import React, { useState } from 'react'
 
-export const useInput = (initValue: string, validations: any) => {
+import { useValidation } from './useValidation'
+
+export const useInput = (initValue: string, validations: Record<string, string | number | boolean>) => {
   const [value, setValue] = useState<string>(initValue)
   const [isDirty, setIsDirty] = useState<boolean>(false)
   const valid = useValidation(value, validations)
-  const onChange = (event: any) => {
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setIsDirty(true)
     setValue(event.target.value)
   }
 
-  const onBlur = (event: any) => {
+  const onBlur = () => {
     setIsDirty(true)
   }
 
@@ -19,6 +22,6 @@ export const useInput = (initValue: string, validations: any) => {
     onChange,
     onBlur,
     isDirty,
-    ...valid
+    ...valid,
   }
 }

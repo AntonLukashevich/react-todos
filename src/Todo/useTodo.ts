@@ -1,12 +1,11 @@
-import {useCallback, useState} from "react";
+import { useCallback, useState } from 'react'
 
-import {ITodo} from "../utils/interfaces";
-import {useApi} from "../utils/hooks";
-import {TODOS} from "./TodoList/constants/mock-data";
+import { ITodo } from '../utils/interfaces'
+import { useApi } from '../utils/hooks'
 
 export const useTodo = () => {
   const [todos, setTodos] = useState<ITodo[]>([])
-  const {getAllTodos, createTodo, deleteTodo, editTodo, errors} = useApi()
+  const { getAllTodos, createTodo, deleteTodo, editTodo, errors } = useApi()
   const [todo, setTodo] = useState<ITodo | null>()
   const [todosLoading, setTodosLoading] = useState(false)
 
@@ -15,16 +14,14 @@ export const useTodo = () => {
     setTimeout(() => {
       getAllTodos().then((response: ITodo[]) => {
         if (errors.length) {
-          console.log(errors)
           setTodosLoading(false)
         } else {
           setTodos(response)
           setTodosLoading(false)
         }
       })
-
     }, 500)
-  }, [])
+  }, [errors])
 
   const removeTodo = (todoId: number) => {
     deleteTodo(todoId).then((response: any) => {
@@ -32,7 +29,7 @@ export const useTodo = () => {
     })
   }
 
-  const addTodo = (todo: { title: string, description: string }) => {
+  const addTodo = (todo: { title: string; description: string }) => {
     createTodo(todo.title, todo.description).then((response: ITodo) => {
       setTodos(todos.concat(response))
     })
@@ -44,23 +41,27 @@ export const useTodo = () => {
 
   const updateTodo = (todo: ITodo) => {
     editTodo(todo).then((response: ITodo) => {
-      setTodos(todos.map((td: ITodo) => {
-        if (td.id === response.id) {
-          return todo;
-        }
-        return td;
-      }))
+      setTodos(
+        todos.map((td: ITodo) => {
+          if (td.id === response.id) {
+            return todo
+          }
+          return td
+        })
+      )
     })
   }
 
   const updateStatus = (todoId: number, newStatus: string) => {
-    editTodo({id: todoId, status: newStatus}).then((response: ITodo) => {
-      setTodos(todos.map((td: ITodo) => {
-        if (td.id === response.id) {
-          return response;
-        }
-        return td;
-      }))
+    editTodo({ id: todoId, status: newStatus }).then((response: ITodo) => {
+      setTodos(
+        todos.map((td: ITodo) => {
+          if (td.id === response.id) {
+            return response
+          }
+          return td
+        })
+      )
     })
   }
 
@@ -77,6 +78,6 @@ export const useTodo = () => {
     updateStatus,
     todosLoading,
     setTodosLoading,
-    errors
+    errors,
   }
 }

@@ -1,6 +1,6 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from 'react'
 
-export const useValidation = (value: string, validations: any) => {
+export const useValidation = (value: string, validations: Record<string, string | number | boolean>) => {
   const [isEmpty, setIsEmpty] = useState(true)
   const [minLengthError, setMinLengthError] = useState(false)
   const [maxLengthError, setMaxLengthError] = useState(false)
@@ -9,7 +9,7 @@ export const useValidation = (value: string, validations: any) => {
   useEffect(() => {
     for (const validation in validations) {
       switch (validation) {
-        case  'minLength':
+        case 'minLength':
           value.length < validations[validation] ? setMinLengthError(true) : setMinLengthError(false)
           break
         case 'maxLength':
@@ -20,7 +20,7 @@ export const useValidation = (value: string, validations: any) => {
           break
       }
     }
-  }, [value])
+  }, [value, validations])
 
   useEffect(() => {
     if (isEmpty || maxLengthError || minLengthError) {
@@ -34,6 +34,6 @@ export const useValidation = (value: string, validations: any) => {
     isEmpty,
     minLengthError,
     maxLengthError,
-    inputValid
+    inputValid,
   }
 }

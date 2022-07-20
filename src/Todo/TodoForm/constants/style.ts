@@ -5,28 +5,29 @@ export const STYLES = {
     bottom: 0,
     right: 0,
     left: 0,
-    display: 'none',
-    background: 'rgba(211,211,211,0.4)'
-  },
-  active: {
+    background: 'rgba(211,211,211,0.4)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: '100'
+    zIndex: '100',
   },
-
+  headerWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   content: {
     padding: '25px',
     background: 'white',
     margin: 'auto 0',
     width: '100%',
-    maxWidth: '600px'
+    maxWidth: '600px',
   },
 
   inputTodoTitle: {
     width: '100%',
     marginBottom: '20px',
-    marginTop: '10px'
+    marginTop: '10px',
   },
 
   inputTodoDescription: {
@@ -34,17 +35,17 @@ export const STYLES = {
     marginBottom: '20px',
     height: '200px',
     border: '1px solid lightgray',
-    borderRadius: '4px'
+    borderRadius: '4px',
   },
 
   btnGroup: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   btn: {
-    width: '100px'
+    width: '100px',
   },
 
   btnClose: {
@@ -52,6 +53,6 @@ export const STYLES = {
     borderRadius: '50%',
     color: '#fff',
     border: 'none',
-    right: '20px'
-  }
+    right: '20px',
+  },
 }
