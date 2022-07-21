@@ -1,6 +1,11 @@
 import React from "react";
-import {CircularProgress} from "@mui/material";
+import { Box, CircularProgress } from '@mui/material'
+import { STYLES } from './constants'
 
 export const Loader = () => {
-  return (<CircularProgress sx={{margin: '4rem'}}/>)
+  return (
+    <Box sx={STYLES.wrapper}>
+      <CircularProgress />
+    </Box>
+  )
 }

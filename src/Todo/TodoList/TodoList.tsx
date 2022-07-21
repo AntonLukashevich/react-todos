@@ -41,20 +41,16 @@ export const TodoList = () => {
     setModal(true)
   }
 
-  const displayedTodos = (): ITodo[] => {
-    return todos
-      .filter((todo) => (filterTodo ? todo.status === filterTodo : todo))
-      .slice(-5)
-      .reverse()
-  }
+  const displayedTodos = todos
+    .filter((todo) => (filterTodo ? todo.status === filterTodo : todo))
+    .slice(-5)
+    .reverse()
 
   return (
     <Box sx={STYLES.wrapper}>
       <Box sx={STYLES.container}>
         <FilterTool setFilter={setFilterTodo} />
-        {modal && (
-          <TodoForm createTodo={addTodo} visible={modal} setVisible={setModal} todo={todo} updateTodo={updateTodo} />
-        )}
+        {modal && <TodoForm createTodo={addTodo} setVisible={setModal} todo={todo} updateTodo={updateTodo} />}
         {todosLoading ? (
           <Loader />
         ) : errors.length ? (
@@ -65,7 +61,7 @@ export const TodoList = () => {
         ) : todos.length ? (
           <List>
             <TransitionGroup>
-              {displayedTodos().map((todo: ITodo) => (
+              {displayedTodos.map((todo: ITodo) => (
                 <CSSTransition key={todo.id} timeout={700} classNames="item">
                   <TodoItem
                     todo={todo}

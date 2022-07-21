@@ -8,7 +8,7 @@ import { useInput } from '../../utils/hooks'
 import { IProps } from './propsInterface'
 import { STYLES } from './constants'
 
-export const TodoForm = ({ createTodo, visible, setVisible, todo, updateTodo }: IProps) => {
+export const TodoForm = ({ createTodo, setVisible, todo, updateTodo }: IProps) => {
   const title = useInput('', { isEmpty: true, minLength: 4, maxLength: 60 })
   const description = useInput('', {
     isEmpty: true,
@@ -41,7 +41,7 @@ export const TodoForm = ({ createTodo, visible, setVisible, todo, updateTodo }: 
 
   return (
     <Box>
-      {visible && (
+      {
         <FormGroup sx={STYLES.wrapper}>
           <Box sx={STYLES.content}>
             <Box sx={STYLES.headerWrapper}>
@@ -57,8 +57,8 @@ export const TodoForm = ({ createTodo, visible, setVisible, todo, updateTodo }: 
               label="Title"
               name="title"
               value={title.value}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => title.onChange(e)}
-              onBlur={() => title.onBlur()}
+              onChange={title.onChange}
+              // onBlur={title.onBlur}
             />
             {description.isDirty && description.isEmpty && <ValidationErrorMessage message={ValidationsErrors.empty} />}
             {description.isDirty && description.minLengthError && (
@@ -75,8 +75,8 @@ export const TodoForm = ({ createTodo, visible, setVisible, todo, updateTodo }: 
               multiline
               rows={6}
               value={description.value}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => description.onChange(e)}
-              onBlur={() => description.onBlur()}
+              onChange={description.onChange}
+              // onBlur={description.onBlur}
             />
             <Box sx={STYLES.btnGroup}>
               <Button
@@ -96,7 +96,7 @@ export const TodoForm = ({ createTodo, visible, setVisible, todo, updateTodo }: 
             </Box>
           </Box>
         </FormGroup>
-      )}
+      }
     </Box>
   )
 }

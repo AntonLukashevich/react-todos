@@ -7,7 +7,7 @@ import { useState } from 'react'
 export const useApi = () => {
   const [errors, setErrors] = useState<string[]>([])
 
-  const getAllTodos = async (): Promise<ITodo[]> => {
+  const getAllTodos = async () => {
     return await axios
       .get<ITodo[]>(<string>environment.backEndUrl)
       .then((response: AxiosResponse) => response.data)
@@ -16,7 +16,7 @@ export const useApi = () => {
       })
   }
 
-  const deleteTodo = async (todoId: number): Promise<ITodo[]> => {
+  const deleteTodo = async (todoId: number) => {
     return await axios
       .delete(<string>environment.backEndUrl + '/', { data: { id: todoId } })
       .then((response: AxiosResponse) => response.data)
@@ -25,7 +25,7 @@ export const useApi = () => {
       })
   }
 
-  const createTodo = async (newTitle: string, newDescription: string): Promise<ITodo> => {
+  const createTodo = async (newTitle: string, newDescription: string) => {
     return await axios
       .post(<string>environment.backEndUrl + '/', { title: newTitle, description: newDescription })
       .then((response: AxiosResponse) => response.data)
@@ -34,7 +34,7 @@ export const useApi = () => {
       })
   }
 
-  const editTodo = async (changes: Record<string, any>): Promise<ITodo> => {
+  const editTodo = async (changes: Record<string, any>) => {
     return await axios
       .patch<ITodo>(<string>environment.backEndUrl + '/', {
         ...changes,

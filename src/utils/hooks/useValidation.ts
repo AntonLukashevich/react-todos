@@ -10,7 +10,7 @@ export const useValidation = (value: string, validations: Record<string, string 
     for (const validation in validations) {
       switch (validation) {
         case 'minLength':
-          value.length < validations[validation] ? setMinLengthError(true) : setMinLengthError(false)
+          (value.length > 0 && value.length < validations[validation]) ? setMinLengthError(true) : setMinLengthError(false)
           break
         case 'maxLength':
           value.length > validations[validation] ? setMaxLengthError(true) : setMaxLengthError(false)
