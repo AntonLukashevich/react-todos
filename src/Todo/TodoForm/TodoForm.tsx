@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, FormGroup, IconButton, TextField } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -15,6 +15,8 @@ export const TodoForm = ({ createTodo, setVisible, todo, updateTodo }: IProps) =
     minLength: 4,
     maxLength: 250,
   })
+  const [titleErrors, setTitleErrors] = useState(false)
+  const [descriptionErrors, setDescriptionErrors] = useState(false)
 
   useEffect(() => {
     if (todo?.id) {
@@ -24,19 +26,24 @@ export const TodoForm = ({ createTodo, setVisible, todo, updateTodo }: IProps) =
   }, [todo])
 
   const submitHandler = () => {
-    if (todo?.id) {
-      updateTodo({
-        ...todo,
-        id: todo.id,
-        title: title.value,
-        description: description.value,
-      })
+    if (!title.inputValid || !description.inputValid) {
+      setTitleErrors(true)
+      setDescriptionErrors(true)
     } else {
-      createTodo({ title: title.value, description: description.value })
+      if (todo?.id) {
+        updateTodo({
+          ...todo,
+          id: todo.id,
+          title: title.value,
+          description: description.value,
+        })
+      } else {
+        createTodo({ title: title.value, description: description.value })
+      }
+      title.setValue('')
+      description.setValue('')
+      setVisible(false)
     }
-    title.setValue('')
-    description.setValue('')
-    setVisible(false)
   }
 
   return (
@@ -49,24 +56,39 @@ export const TodoForm = ({ createTodo, setVisible, todo, updateTodo }: IProps) =
                 <CloseIcon />
               </IconButton>
             </Box>
-            {title.isDirty && title.isEmpty && <ValidationErrorMessage message={ValidationsErrors.empty} />}
-            {title.isDirty && title.minLengthError && <ValidationErrorMessage message={ValidationsErrors.minLength} />}
-            {title.isDirty && title.maxLengthError && <ValidationErrorMessage message={ValidationsErrors.maxLength} />}
+            {titleErrors && (
+              <Box>
+                {title.isDirty && title.isEmpty && <ValidationErrorMessage message={ValidationsErrors.empty} />}
+                {title.isDirty && title.minLengthError && (
+                  <ValidationErrorMessage message={ValidationsErrors.minLength} />
+                )}
+                {title.isDirty && title.maxLengthError && (
+                  <ValidationErrorMessage message={ValidationsErrors.maxLength} />
+                )}
+              </Box>
+            )}
             <TextField
               sx={STYLES.inputTodoTitle}
               label="Title"
               name="title"
               value={title.value}
               onChange={title.onChange}
-              // onBlur={title.onBlur}
+              onBlur={title.onBlur}
             />
-            {description.isDirty && description.isEmpty && <ValidationErrorMessage message={ValidationsErrors.empty} />}
-            {description.isDirty && description.minLengthError && (
-              <ValidationErrorMessage message={ValidationsErrors.minLength} />
+            {descriptionErrors && (
+              <Box>
+                {description.isDirty && description.isEmpty && (
+                  <ValidationErrorMessage message={ValidationsErrors.empty} />
+                )}
+                {description.isDirty && description.minLengthError && (
+                  <ValidationErrorMessage message={ValidationsErrors.minLength} />
+                )}
+                {description.isDirty && description.maxLengthError && (
+                  <ValidationErrorMessage message={ValidationsErrors.maxLength} />
+                )}
+              </Box>
             )}
-            {description.isDirty && description.maxLengthError && (
-              <ValidationErrorMessage message={ValidationsErrors.maxLength} />
-            )}
+
             <TextField
               sx={STYLES.inputTodoTitle}
               id="outlined-multiline-static"
@@ -76,7 +98,7 @@ export const TodoForm = ({ createTodo, setVisible, todo, updateTodo }: IProps) =
               rows={6}
               value={description.value}
               onChange={description.onChange}
-              // onBlur={description.onBlur}
+              onBlur={description.onBlur}
             />
             <Box sx={STYLES.btnGroup}>
               <Button
@@ -86,7 +108,6 @@ export const TodoForm = ({ createTodo, setVisible, todo, updateTodo }: IProps) =
                 variant="contained"
                 type="button"
                 onClick={submitHandler}
-                disabled={!title.inputValid || !description.inputValid}
               >
                 Save
               </Button>
