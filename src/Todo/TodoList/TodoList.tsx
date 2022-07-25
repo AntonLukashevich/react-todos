@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Alert, AlertTitle, Box, Button, List } from '@mui/material'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
+import { useTypedSelector } from '../../utils/hooks/useTypedSelector'
 import { FilterTool } from '../../components/FilterTool'
+import { useActions } from '../../utils/hooks/useAction'
 import { Loader } from '../../components/Loader'
 import { TodoForm } from '../TodoForm/TodoForm'
 import { ITodo } from '../../utils/interfaces'
@@ -11,9 +13,11 @@ import { useTodo } from '../useTodo'
 import { STYLES } from './constants'
 
 export const TodoList = () => {
+  const { error, loading, todos } = useTypedSelector((state) => state.todo)
+  const { fetchTodos } = useActions()
   const {
     loadTodos,
-    todos,
+    //todos,
     removeTodo,
     addTodo,
     getTodo,
@@ -21,15 +25,16 @@ export const TodoList = () => {
     setTodo,
     todo,
     updateStatus,
-    todosLoading,
-    errors,
+    //todosLoading,
+    //errors,
   } = useTodo()
 
   const [modal, setModal] = useState(false)
   const [filterTodo, setFilterTodo] = useState('')
 
   useEffect(() => {
-    loadTodos()
+    //loadTodos()
+    fetchTodos()
   }, [loadTodos])
 
   const openAddModal = () => {
@@ -51,12 +56,12 @@ export const TodoList = () => {
       <Box sx={STYLES.container}>
         <FilterTool setFilter={setFilterTodo} />
         {modal && <TodoForm createTodo={addTodo} setVisible={setModal} todo={todo} updateTodo={updateTodo} />}
-        {todosLoading ? (
+        {loading ? (
           <Loader />
-        ) : errors.length ? (
+        ) : error ? (
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
-            {errors.toString()}
+            {error}
           </Alert>
         ) : todos.length ? (
           <List>
