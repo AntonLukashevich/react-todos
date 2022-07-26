@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, AlertTitle, Box, Button, List } from '@mui/material'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { useTypedSelector } from '../../utils/hooks/useTypedSelector'
 import { FilterTool } from '../../components/FilterTool'
-import { useActions } from '../../utils/hooks/useAction'
 import { Loader } from '../../components/Loader'
 import { TodoForm } from '../TodoForm/TodoForm'
 import { ITodo } from '../../utils/interfaces'
@@ -13,29 +11,15 @@ import { useTodo } from '../useTodo'
 import { STYLES } from './constants'
 
 export const TodoList = () => {
-  const { error, loading, todos } = useTypedSelector((state) => state.todo)
-  const { fetchTodos } = useActions()
-  const {
-    loadTodos,
-    //todos,
-    removeTodo,
-    addTodo,
-    getTodo,
-    updateTodo,
-    setTodo,
-    todo,
-    updateStatus,
-    //todosLoading,
-    //errors,
-  } = useTodo()
+  const { loadTodos, todos, removeTodo, addTodo, getTodo, updateTodo, setTodo, todo, updateStatus, loading, error } =
+    useTodo()
 
   const [modal, setModal] = useState(false)
   const [filterTodo, setFilterTodo] = useState('')
 
   useEffect(() => {
-    //loadTodos()
-    fetchTodos()
-  }, [loadTodos])
+    loadTodos()
+  }, [error])
 
   const openAddModal = () => {
     setTodo(null)

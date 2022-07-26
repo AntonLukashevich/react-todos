@@ -1,10 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import { applyMiddleware, createStore } from 'redux'
 import reportWebVitals from './reportWebVitals'
+import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { store } from './store'
+import thunk from 'redux-thunk'
+import React from 'react'
+import App from './App'
+import './index.css'
+
+import { reducer } from './store/reducers'
+
+export const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(

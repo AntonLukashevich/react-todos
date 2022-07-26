@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 import { ITodo } from '../../utils/interfaces'
 import { TodoAction } from '../../utils/types/todoAction'
@@ -14,8 +14,51 @@ export const fetchTodos = () => {
       setTimeout(() => {
         dispatch({ type: TodoActionTypes.FETCH_TODOS_SUCCESS, payload: response.data })
       }, 500)
-    } catch (e) {
-      dispatch({ type: TodoActionTypes.FETCH_TODOS_ERROR, payload: 'error' })
+    } catch (error: AxiosError | any) {
+      dispatch({ type: TodoActionTypes.FETCH_TODOS_ERROR, payload: `error: ${error.message}; code: ${error.code}` })
+    }
+  }
+}
+
+export const deleteTodo = (todoId: number) => {
+  return async (dispatch: Dispatch<TodoAction>) => {
+    try {
+      dispatch({ type: TodoActionTypes.DELETE_TODO })
+      const response = await axios.delete(<string>environment.backEndUrl + '/', { data: { id: todoId } })
+      setTimeout(() => {
+        dispatch({ type: TodoActionTypes.DELETE_TODO_SUCCESS, payload: response.data })
+      }, 500)
+    } catch (error: AxiosError | any) {
+      dispatch({ type: TodoActionTypes.DELETE_TODO_ERROR, payload: `error: ${error.message}; code: ${error.code}` })
+    }
+  }
+}
+
+export const createTodo = (newTitle: string, newDescription: string) => {
+  return async (dispatch: Dispatch<TodoAction>) => {
+    try {
+      dispatch({ type: TodoActionTypes.CREATE_TODO })
+      const response = await axios.post(<string>environment.backEndUrl + '/', {
+        title: newTitle,
+        description: newDescription,
+      })
+      dispatch({ type: TodoActionTypes.CREATE_TODO_SUCCESS, payload: response.data })
+    } catch (error: AxiosError | any) {
+      dispatch({ type: TodoActionTypes.CREATE_TODO_ERROR, payload: `error: ${error.message}; code: ${error.code}` })
+    }
+  }
+}
+
+export const editTodo = (changes: Record<string, any>) => {
+  return async (dispatch: Dispatch<TodoAction>) => {
+    try {
+      dispatch({ type: TodoActionTypes.EDIT_TODO })
+      const response = await axios.patch(<string>environment.backEndUrl + '/', {
+        ...changes,
+      })
+      dispatch({ type: TodoActionTypes.EDIT_TODO_SUCCESS, payload: response.data })
+    } catch (error: AxiosError | any) {
+      dispatch({ type: TodoActionTypes.EDIT_TODO_ERROR, payload: `error: ${error.message}; code: ${error.code}` })
     }
   }
 }
