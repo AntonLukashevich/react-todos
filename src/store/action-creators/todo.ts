@@ -24,7 +24,7 @@ export const deleteTodo = (todoId: number) => {
   return async (dispatch: Dispatch<TodoAction>) => {
     try {
       dispatch({ type: TodoActionTypes.DELETE_TODO })
-      const response = await axios.delete(<string>environment.backEndUrl + '/', { data: { id: todoId } })
+      const response = await axios.delete(`${environment.backEndUrl}/`, { data: { id: todoId } })
       setTimeout(() => {
         dispatch({ type: TodoActionTypes.DELETE_TODO_SUCCESS, payload: response.data })
       }, 500)
@@ -38,7 +38,7 @@ export const createTodo = (newTitle: string, newDescription: string) => {
   return async (dispatch: Dispatch<TodoAction>) => {
     try {
       dispatch({ type: TodoActionTypes.CREATE_TODO })
-      const response = await axios.post(<string>environment.backEndUrl + '/', {
+      const response = await axios.post(`${environment.backEndUrl}/`, {
         title: newTitle,
         description: newDescription,
       })
@@ -53,7 +53,7 @@ export const editTodo = (changes: Record<string, any>) => {
   return async (dispatch: Dispatch<TodoAction>) => {
     try {
       dispatch({ type: TodoActionTypes.EDIT_TODO })
-      const response = await axios.patch(<string>environment.backEndUrl + '/', {
+      const response = await axios.patch(`${environment.backEndUrl}/`, {
         ...changes,
       })
       dispatch({ type: TodoActionTypes.EDIT_TODO_SUCCESS, payload: response.data })

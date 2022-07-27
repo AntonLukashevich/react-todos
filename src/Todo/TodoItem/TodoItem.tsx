@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { FormControl, Grid, IconButton, InputLabel, ListItem, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { Grid, IconButton, ListItem, SelectChangeEvent } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import EditIcon from '@mui/icons-material/Edit'
 
 import { RollableBlock } from '../../components/RollableBlock'
-import { StatusTodo } from '../../utils/enums'
+import { BaseRoutePaths } from '../../utils/enums'
 import { IProps } from './propsInterface'
 import { STYLES } from './constants'
+import { Link } from 'react-router-dom'
+import { TodoStatus } from '../TodoStatus/TodoStatus'
 
 export const TodoItem = ({ todo, removeTodo, getTodo, openEdit, updateStatus }: IProps) => {
   const [showMore, setShowMore] = useState(false)
@@ -24,35 +26,15 @@ export const TodoItem = ({ todo, removeTodo, getTodo, openEdit, updateStatus }: 
     openEdit()
   }
 
-  const changeStatus = (event: SelectChangeEvent) => {
-    updateStatus(todo.id, event.target.value)
-  }
-
   return (
     <ListItem sx={STYLES.todoItem}>
       <Grid container>
         <Grid container>
           <Grid item xs={9} sx={STYLES.todoTitle}>
-            {' '}
-            {todo.title}
+            <Link to={`${BaseRoutePaths.todo}/${todo.id}`}>{todo.title}</Link>
           </Grid>
           <Grid item xs={2} sx={STYLES.todoStatus}>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Status</InputLabel>
-              <Select
-                sx={STYLES[todo.status]}
-                size="small"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={todo?.status}
-                label="Status"
-                onChange={changeStatus}
-              >
-                <MenuItem value={StatusTodo.todo}>{StatusTodo.todo}</MenuItem>
-                <MenuItem value={StatusTodo.in_progress}>{StatusTodo.in_progress}</MenuItem>
-                <MenuItem value={StatusTodo.done}>{StatusTodo.done}</MenuItem>
-              </Select>
-            </FormControl>
+            {todo && <TodoStatus todo={todo} updateStatus={updateStatus} />}
           </Grid>
           <Grid item xs={1} sx={STYLES.todoActionBtn}>
             <IconButton color="info" size="small" onClick={openEditModal}>

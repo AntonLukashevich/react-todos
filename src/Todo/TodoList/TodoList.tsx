@@ -13,7 +13,6 @@ import { STYLES } from './constants'
 export const TodoList = () => {
   const { loadTodos, todos, removeTodo, addTodo, getTodo, updateTodo, setTodo, todo, updateStatus, loading, error } =
     useTodo()
-
   const [modal, setModal] = useState(false)
   const [filterTodo, setFilterTodo] = useState('')
 
