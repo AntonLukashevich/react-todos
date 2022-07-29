@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, AlertTitle, Box, Button, List } from '@mui/material'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { RootState } from '../../store/reducers/rootReducer'
+import { useDispatch, useSelector } from "react-redux";
 
 import { FilterTool } from '../../components/FilterTool'
 import { Loader } from '../../components/Loader'
@@ -9,11 +11,12 @@ import { ITodo } from '../../utils/interfaces'
 import { TodoItem } from '../TodoItem'
 import { useTodo } from '../useTodo'
 import { STYLES } from './constants'
+import { fetchTodosRequest } from '../../store/actopns/todoActions'
 
 export const TodoList = () => {
   const {
     loadTodos,
-    todos,
+    //todos,
     removeTodo,
     addTodo,
     getTodo,
@@ -28,8 +31,14 @@ export const TodoList = () => {
   const [modal, setModal] = useState(false)
   const [filterTodo, setFilterTodo] = useState('')
 
+  const dispatch = useDispatch();
+  const { loading, todos, error } = useSelector(
+    (state: RootState) => state.todos
+  );
+
   useEffect(() => {
-    loadTodos()
+    //loadTodos()
+    dispatch(fetchTodosRequest());
   }, [loadTodos])
 
   const openAddModal = () => {
@@ -92,3 +101,5 @@ export const TodoList = () => {
     </Box>
   )
 }
+
+

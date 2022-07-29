@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
-import { environment } from '../../enviroments/environment.pros'
+import { environment } from '../../enviroments/environment.prod'
 import { ITodo } from '../interfaces'
 import { useState } from 'react'
 
